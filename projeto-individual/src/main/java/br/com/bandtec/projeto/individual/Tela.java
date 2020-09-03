@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.bandtec.projeto.individual;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,26 +8,24 @@ import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.UIManager;
 
-/**
- *
- * @author chris
- */
 public class Tela extends javax.swing.JFrame {
+    
+    Componente cpu = new Componente();
+    Componente disco = new Componente();
+    Componente memoria = new Componente();
+    
+    Integer numeroLeituras = 0;
 
     /**
      * Creates new form Calculadora
      */
     public Tela() {
         initComponents();
-//        scaleImage();
+        iniciarProgressBar();
+        this.setLocationRelativeTo(null);
     }
-    
-//    public void scaleImage() {;
-//        ImageIcon icon = new ImageIcon("C:\\Users\\chris\\Documents\\Projetos\\NetBeansProjects\\projeto-individual\\img\\image.png");
-//        icon.setImage(icon.getImage().getScaledInstance(jlImage.getWidth(), jlImage.getHeight(), 10));
-//        jlImage.setIcon(icon);
-//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -59,20 +53,30 @@ public class Tela extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        lbCpuMin = new javax.swing.JLabel();
+        lbCpuMax = new javax.swing.JLabel();
+        lbCpuMed = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
+        lbDiscoMin = new javax.swing.JLabel();
+        lbDiscoMed = new javax.swing.JLabel();
+        lbDiscoMax = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
+        lbMemoriaMin = new javax.swing.JLabel();
+        lbMemoriaMed = new javax.swing.JLabel();
+        lbMemoriaMax = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
 
         jPanel6.setBackground(new java.awt.Color(102, 102, 102));
 
@@ -138,7 +142,7 @@ public class Tela extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(204, 204, 204));
         jLabel5.setText("Memória");
 
-        btMonitorar.setText("Monitorar");
+        btMonitorar.setText("Iniciar Leitura");
         btMonitorar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btMonitorarActionPerformed(evt);
@@ -153,16 +157,25 @@ public class Tela extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(102, 102, 102));
 
-        jLabel10.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel10.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel10.setText("Minímo:");
+        lbCpuMin.setBackground(new java.awt.Color(51, 51, 51));
+        lbCpuMin.setForeground(new java.awt.Color(204, 204, 204));
+        lbCpuMin.setText("0");
 
-        jLabel11.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel11.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel11.setText("Máximo:");
+        lbCpuMax.setBackground(new java.awt.Color(51, 51, 51));
+        lbCpuMax.setForeground(new java.awt.Color(204, 204, 204));
+        lbCpuMax.setText("0");
 
-        jLabel12.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel12.setForeground(new java.awt.Color(204, 204, 204));
+        lbCpuMed.setBackground(new java.awt.Color(51, 51, 51));
+        lbCpuMed.setForeground(new java.awt.Color(204, 204, 204));
+        lbCpuMed.setText("0");
+
+        jLabel6.setForeground(new java.awt.Color(153, 255, 153));
+        jLabel6.setText("Mínimo:");
+
+        jLabel21.setForeground(new java.awt.Color(255, 153, 153));
+        jLabel21.setText("Máximo:");
+
+        jLabel12.setForeground(new java.awt.Color(204, 204, 255));
         jLabel12.setText("Média:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -171,20 +184,29 @@ public class Tela extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel10)
-                .addGap(45, 45, 45)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbCpuMin, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addComponent(jLabel11)
-                .addGap(31, 31, 31))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbCpuMed, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbCpuMax, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11)
+                    .addComponent(lbCpuMin)
+                    .addComponent(lbCpuMax)
+                    .addComponent(lbCpuMed)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel21)
                     .addComponent(jLabel12))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -199,17 +221,26 @@ public class Tela extends javax.swing.JFrame {
 
         jPanel8.setBackground(new java.awt.Color(102, 102, 102));
 
-        jLabel19.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel19.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel19.setText("Minímo:");
+        lbDiscoMin.setBackground(new java.awt.Color(51, 51, 51));
+        lbDiscoMin.setForeground(new java.awt.Color(204, 204, 204));
+        lbDiscoMin.setText("0");
 
-        jLabel20.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel20.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel20.setText("Máximo:");
+        lbDiscoMed.setBackground(new java.awt.Color(51, 51, 51));
+        lbDiscoMed.setForeground(new java.awt.Color(204, 204, 204));
+        lbDiscoMed.setText("0");
 
-        jLabel21.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel21.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel21.setText("Média:");
+        lbDiscoMax.setBackground(new java.awt.Color(51, 51, 51));
+        lbDiscoMax.setForeground(new java.awt.Color(204, 204, 204));
+        lbDiscoMax.setText("0");
+
+        jLabel19.setForeground(new java.awt.Color(153, 255, 153));
+        jLabel19.setText("Mínimo:");
+
+        jLabel20.setForeground(new java.awt.Color(204, 204, 255));
+        jLabel20.setText("Média:");
+
+        jLabel11.setForeground(new java.awt.Color(255, 153, 153));
+        jLabel11.setText("Máximo:");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -218,35 +249,53 @@ public class Tela extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel19)
-                .addGap(46, 46, 46)
-                .addComponent(jLabel21)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbDiscoMin, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel20)
-                .addGap(31, 31, 31))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbDiscoMed, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbDiscoMax, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbDiscoMin)
+                    .addComponent(lbDiscoMed)
+                    .addComponent(lbDiscoMax)
                     .addComponent(jLabel19)
                     .addComponent(jLabel20)
-                    .addComponent(jLabel21))
+                    .addComponent(jLabel11))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel9.setBackground(new java.awt.Color(102, 102, 102));
 
-        jLabel22.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel22.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel22.setText("Minímo:");
+        lbMemoriaMin.setBackground(new java.awt.Color(51, 51, 51));
+        lbMemoriaMin.setForeground(new java.awt.Color(204, 204, 204));
+        lbMemoriaMin.setText("0");
 
-        jLabel23.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel23.setForeground(new java.awt.Color(204, 204, 204));
+        lbMemoriaMed.setBackground(new java.awt.Color(51, 51, 51));
+        lbMemoriaMed.setForeground(new java.awt.Color(204, 204, 204));
+        lbMemoriaMed.setText("0");
+
+        lbMemoriaMax.setBackground(new java.awt.Color(51, 51, 51));
+        lbMemoriaMax.setForeground(new java.awt.Color(204, 204, 204));
+        lbMemoriaMax.setText("0");
+
+        jLabel22.setForeground(new java.awt.Color(153, 255, 153));
+        jLabel22.setText("Mínimo:");
+
+        jLabel23.setForeground(new java.awt.Color(255, 153, 153));
         jLabel23.setText("Máximo:");
 
-        jLabel24.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel24.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel24.setForeground(new java.awt.Color(204, 204, 255));
         jLabel24.setText("Média:");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -256,17 +305,26 @@ public class Tela extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel22)
-                .addGap(49, 49, 49)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbMemoriaMin, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addComponent(jLabel24)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbMemoriaMed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel23)
-                .addGap(31, 31, 31))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbMemoriaMax, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbMemoriaMin)
+                    .addComponent(lbMemoriaMed)
+                    .addComponent(lbMemoriaMax)
                     .addComponent(jLabel22)
                     .addComponent(jLabel23)
                     .addComponent(jLabel24))
@@ -275,45 +333,54 @@ public class Tela extends javax.swing.JFrame {
 
         jLabel16.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel16.setText("Acompanhe os componentes");
+        jLabel16.setText("Uso dos componentes");
+
+        jLabel17.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel17.setText("(Geral)");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel7)
+                        .addComponent(jLabel9)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel8)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(17, 17, 17))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addGap(37, 37, 37))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel16)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGap(65, 65, 65)
+                                .addComponent(jLabel17)))
+                        .addGap(47, 47, 47)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel16)
-                .addGap(39, 39, 39)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17)
+                .addGap(14, 14, 14)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -332,12 +399,12 @@ public class Tela extends javax.swing.JFrame {
                         .addComponent(pbCpu, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(btMonitorar)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addComponent(btMonitorar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addGap(15, 15, 15))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,7 +416,7 @@ public class Tela extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(20, 20, 20)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pbCpu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -361,7 +428,7 @@ public class Tela extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pbMemoria, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
+                        .addGap(18, 18, 18)
                         .addComponent(btMonitorar)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
@@ -380,15 +447,36 @@ public class Tela extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btMonitorarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMonitorarActionPerformed
-        
-        Integer randomCpu = ThreadLocalRandom.current().nextInt(0, 101);
-        
-        pbCpu.setValue(randomCpu);
+    void iniciarProgressBar() {
         pbCpu.setStringPainted(true);
-        pbCpu.setString(String.format("%d%", randomCpu));
+        pbDisco.setStringPainted(true);
+        pbMemoria.setStringPainted(true);
+    }
+    
+    private void btMonitorarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMonitorarActionPerformed
+        numeroLeituras++;
+        
+        cpu.gerarDados();
+        pbCpu.setValue(cpu.numeroAleatorio);
+        lbCpuMin.setText(cpu.usoMinimo.toString());
+        lbCpuMed.setText(String.format("%.2f", (cpu.mediaUso / numeroLeituras)));
+        lbCpuMax.setText(cpu.usoMaximo.toString());
+        
+        disco.gerarDados();
+        pbDisco.setValue(disco.numeroAleatorio);
+        lbDiscoMin.setText(disco.usoMinimo.toString());
+        lbDiscoMed.setText(String.format("%.2f", (disco.mediaUso / numeroLeituras)));
+        lbDiscoMax.setText(disco.usoMaximo.toString());
+        
+        memoria.gerarDados();
+        pbMemoria.setValue(memoria.numeroAleatorio);
+        lbMemoriaMin.setText(memoria.usoMinimo.toString());
+        lbMemoriaMed.setText(String.format("%.2f", (memoria.mediaUso / numeroLeituras)));
+        lbMemoriaMax.setText(memoria.usoMaximo.toString());
+        
+        btMonitorar.setText("Atualizar dados");
     }//GEN-LAST:event_btMonitorarActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */
@@ -429,13 +517,13 @@ public class Tela extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btMonitorar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
@@ -446,6 +534,7 @@ public class Tela extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -455,6 +544,15 @@ public class Tela extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel lbCpuMax;
+    private javax.swing.JLabel lbCpuMed;
+    private javax.swing.JLabel lbCpuMin;
+    private javax.swing.JLabel lbDiscoMax;
+    private javax.swing.JLabel lbDiscoMed;
+    private javax.swing.JLabel lbDiscoMin;
+    private javax.swing.JLabel lbMemoriaMax;
+    private javax.swing.JLabel lbMemoriaMed;
+    private javax.swing.JLabel lbMemoriaMin;
     private javax.swing.JProgressBar pbCpu;
     private javax.swing.JProgressBar pbDisco;
     private javax.swing.JProgressBar pbMemoria;
