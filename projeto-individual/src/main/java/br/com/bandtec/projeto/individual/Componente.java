@@ -6,11 +6,11 @@ public class Componente {
     Integer numeroAleatorio;
     Integer usoMaximo = 0;
     Integer usoMinimo;
-    Integer capacidadeMáxima = 0;
+    Integer capacidadeMaxima = 0;
     Double totalUso = 0.0;
     
     void gerarDados() {
-       numeroAleatorio = ThreadLocalRandom.current().nextInt(0, capacidadeMáxima + 1);
+       numeroAleatorio = ThreadLocalRandom.current().nextInt(0, capacidadeMaxima + 1);
        compararDados();
     }
     
@@ -28,13 +28,5 @@ public class Componente {
         }
         
         totalUso += numeroAleatorio;
-    }
-    
-   Integer porcentagemUso() {
-        Double dbAleatorio = Double.valueOf(numeroAleatorio); 
-        Double dbCapacidade = Double.valueOf(capacidadeMáxima); 
-        Double porcetagem = (dbAleatorio / dbCapacidade) * 100;
-
-        return porcetagem.intValue();
     }
 }
